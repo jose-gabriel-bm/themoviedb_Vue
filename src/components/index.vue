@@ -1,23 +1,155 @@
 <template>
     <MenuSuperior /> 
-O que é Lorem Ipsum? Lorem Ipsum é simplesmente um texto fictício da indústria de impressão e composição. Lorem Ipsum tem sido o texto fictício padrão da indústria desde os anos 1500, quando um impressor desconhecido pegou uma galé do tipo e embaralhou para fazer um livro de amostra de tipos. Ele sobreviveu não apenas cinco séculos, mas também ao salto para a composição eletrônica, permanecendo essencialmente inalterado. Foi popularizado na década de 1960 com o lançamento de folhas de Letraset contendo passagens de Lorem Ipsum e, mais recentemente, com software de editoração eletrônica como Aldus PageMaker incluindo versões de Lorem Ipsum. Porque usamos isso? É um fato estabelecido há muito tempo que um leitor se distrairá com o conteúdo legível de uma página ao examinar seu layout. O objetivo de usar Lorem Ipsum é que ele tem uma distribuição de letras mais ou menos normal, em vez de usar 'Conteúdo aqui, conteúdo aqui', fazendo com que pareça inglês legível. Muitos pacotes de editoração eletrônica e editores de páginas da web agora usam Lorem Ipsum como seu texto de modelo padrão, e uma pesquisa por 'lorem ipsum' revelará muitos sites ainda em sua infância. Várias versões evoluíram ao longo dos anos, às vezes por acidente, às vezes de propósito (humor injetado e coisas do gênero). O que é Lorem Ipsum? Lorem Ipsum é simplesmente um texto fictício da indústria de impressão e composição. Lorem Ipsum tem sido o texto fictício padrão da indústria desde os anos 1500, quando um impressor desconhecido pegou uma galé do tipo e embaralhou para fazer um livro de amostra de tipos. Ele sobreviveu não apenas cinco séculos, mas também ao salto para a composição eletrônica, permanecendo essencialmente inalterado. Foi popularizado na década de 1960 com o lançamento de folhas de Letraset contendo passagens de Lorem Ipsum e, mais recentemente, com software de editoração eletrônica como Aldus PageMaker incluindo versões de Lorem Ipsum. Porque usamos isso? É um fato estabelecido há muito tempo que um leitor se distrairá com o conteúdo legível de uma página ao examinar seu layout. O objetivo de usar Lorem Ipsum é que ele tem uma distribuição de letras mais ou menos normal, ao contrário de usar 'Conteúdo aqui, conteúdo aqui', fazendo com que pareça inglês legível. Muitos pacotes de editoração eletrônica e editores de páginas da web agora usam Lorem Ipsum como seu texto de modelo padrão, e uma pesquisa por 'lorem ipsum' revelará muitos sites ainda em sua infância. Várias versões evoluíram ao longo dos anos, às vezes por acidente, às vezes de propósito (humor injetado e coisas do gênero). É um fato estabelecido há muito tempo que um leitor se distrairá com o conteúdo legível de uma página ao examinar seu layout. O objetivo de usar Lorem Ipsum é que ele tem uma distribuição de letras mais ou menos normal, ao contrário de usar 'Conteúdo aqui, conteúdo aqui', fazendo com que pareça inglês legível. Muitos pacotes de editoração eletrônica e editores de páginas da web agora usam Lorem Ipsum como seu texto de modelo padrão, e uma pesquisa por 'lorem ipsum' revelará muitos sites ainda em sua infância. Várias versões evoluíram ao longo dos anos, às vezes por acidente, às vezes de propósito (humor injetado e coisas do gênero). em vez de usar 'Conteúdo aqui, conteúdo aqui', fazendo com que pareça inglês legível. Muitos pacotes de editoração eletrônica e editores de páginas da web agora usam Lorem Ipsum como seu texto de modelo padrão, e uma pesquisa por 'lorem ipsum' revelará muitos sites ainda em sua infância. Várias versões evoluíram ao longo dos anos, às vezes por acidente, às vezes de propósito (humor injetado e coisas do gênero). em vez de usar 'Conteúdo aqui, conteúdo aqui', fazendo com que pareça inglês legível. Muitos pacotes de editoração eletrônica e editores de páginas da web agora usam Lorem Ipsum como seu texto de modelo padrão, e uma pesquisa por 'lorem ipsum' revelará muitos sites ainda em sua infância. Várias versões evoluíram ao longo dos anos, às vezes por acidente, às vezes de propósito (humor injetado e coisas do gênero).
+
+    <div class="conteudo">
+
+        <div id="pesquisa">
+        
+        </div>            
+
+        <div id="filmes"> 
+            <div class="card" v-for='result in results' :key='result.id'>
+                <div class="topCard">
+                    <h4>
+                        {{result.title}}
+                    </h4>
+                </div>
+                <div class="mediaCard">
+                    <img :src="'http://image.tmdb.org/t/p/w500/'+result.poster_path" >
+                </div>
+                <div class="bottomCard">
+                    <h5>
+                        Data Lançamento
+                    </h5>
+                    <p>
+                        {{ result.release_date }}
+                    </p>
+                </div>
+            </div> 
+            <div class="buttonCarregar">
+                <button id="buttonCarregarMais" type="button">
+                    <h4>Carregar Filmes</h4>
+                </button> 
+            </div>          
+        </div> 
+
+    </div>
+
     <Rodape />
 </template>
 
 <script>
 import MenuSuperior from './MenuSuperior.vue'
 import Rodape from './Rodape.vue'
+import axios from 'axios';
 
     export default {
         name:'index',
+        created(){
+            this.BuscaFilmePopular();
+        },
         components: {
             MenuSuperior,
             Rodape
+        },
+        data(){
+            return{
+                results:'',
+            }
+        },
+        methods:{
+            BuscaFilmePopular() {
+                axios.get('https://api.themoviedb.org/3/movie/popular?api_key=beed4e65bca0365111bd1076df78d4aa&language=pt-BR&page=1')
+                .then(response => {
+                    this.results = response.data.results 
+                })
+            },
+
         }
     }
 </script>
 
-
-<style>
-
+<style scoped>
+    .conteudo {
+        padding: 30px;
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+    }
+    #filmes {
+        padding: 20px;
+        padding-left: 30px;
+        margin: 10px;
+        width: 100%;
+        height: 100%; 
+    }
+    .card {
+        background: #FFF;
+        box-shadow: 0px 2px 18px rgba(1, 21, 44, 0.274);
+        border-radius: 20px;
+        margin: 20px;
+        margin-left: 20px;
+        width: 250px;
+        height: 200px;
+        display: inline-table;
+    }
+    .topCard {
+        padding: 15px;
+        padding-top: 10px;
+        padding-bottom: 5px;
+        width: 100%;
+        height: 100px;
+    }
+    .topCard h4 {
+        cursor: pointer;
+        margin: 0px;
+        color: rgb(3, 63, 131);
+    }
+    .mediaCard {
+        width: 100%;
+        height: 100%;
+    }
+    .mediaCard img {
+        cursor: pointer;
+        width: 250px;
+        height: 320px;
+    }
+    .bottomCard {
+        padding: 15px;
+        width: 100%;
+        height: 100%;
+    }
+    .bottomCard h5 {
+        margin: 0px;
+        cursor: pointer;
+        color: rgb(3, 63, 131);
+    }
+    .bottomCard p {
+        margin: 0px;
+        color: rgb(20, 54, 94);
+    }
+    .buttonCarregar{
+        text-align: center;
+    }
+    #buttonCarregarMais h4{
+        margin: 0px;
+    }
+    #buttonCarregarMais:hover{
+        color: #FFF;
+        border-radius: 10px;
+        border-color: #02a3fa;
+        background-image: linear-gradient(to right, #01507a, #02a3fa);
+    }
+    #buttonCarregarMais{
+        float: center;
+        width: 600px;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px;
+        border-color: #2a7fad;
+        color: rgba(255, 255, 255, 0.863);
+        background-image: linear-gradient(to right, #2a7fad, #4692bb);
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;       
+    }   
 </style>
