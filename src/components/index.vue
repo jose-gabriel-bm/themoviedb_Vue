@@ -9,6 +9,8 @@
 
         <div id="filmes"> 
             <div class="card" v-for='result in results' :key='result.id'>
+                <router-link to="{ name:'Vizualizacao'}">teste</router-link>
+
                 <div class="topCard">
                     <h4>
                         {{result.title}}
@@ -48,14 +50,14 @@ import axios from 'axios';
         created(){
             this.BuscaFilmePopular();
         },
-        components: {
-            MenuSuperior,
-            Rodape
-        },
         data(){
             return{
                 results:'',
             }
+        },
+        components:{
+            MenuSuperior,
+            Rodape
         },
         methods:{
             BuscaFilmePopular() {
@@ -75,6 +77,7 @@ import axios from 'axios';
         margin: 0px;
         width: 100%;
         height: 100%;
+        /* height: calc(100vh - 70px); */
         font-family:Verdana, Geneva, Tahoma, sans-serif;
     }
     #filmes {
@@ -136,20 +139,20 @@ import axios from 'axios';
         margin: 0px;
     }
     #buttonCarregarMais:hover{
-        color: #FFF;
         border-radius: 10px;
-        border-color: #02a3fa;
-        background-image: linear-gradient(to right, #01507a, #02a3fa);
+        border-color: #2a7fad;
+        color: rgba(255, 255, 255, 0.863);
+        background-image: linear-gradient(to right, #2a7fad, #4692bb);
     }
     #buttonCarregarMais{
+        color: #FFF;
         float: center;
         width: 600px;
         padding: 15px;
         text-align: center;
         border-radius: 10px;
-        border-color: #2a7fad;
-        color: rgba(255, 255, 255, 0.863);
-        background-image: linear-gradient(to right, #2a7fad, #4692bb);
+        border-color: #02a3fa;
+        background-image: linear-gradient(to right, #01507a, #02a3fa);      
         font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;       
     }   
 </style>

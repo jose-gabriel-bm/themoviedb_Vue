@@ -1,22 +1,21 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-// import GitHubIssues from '@/components/GitHubIssues';
-// import GitHubIssue from '@/components/GitHubIssue';
-
+import Vizualizacao from '@/components/Vizualizacao';
+import index  from '@/components/index';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'GitHubIssues',
-    //   component: GitHubIssues,
-    // },
-    // {
-    //   path: '/:name/:repo/:issue',
-    //   name: 'GitHubIssue',
-    //   component: GitHubIssue,
-    // },
+    {
+      path: '/',
+      name: 'index',
+      component: index,
+    },
+    {
+      path: '/',
+      name: 'Vizualizacao',
+      component: Vizualizacao,
+    },
   ],
 });
