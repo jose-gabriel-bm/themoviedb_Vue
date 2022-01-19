@@ -1,16 +1,26 @@
 <template>
-
-<index />
-
+  <div id="app">
+    <MenuSuperior />
+    <Visualizar />
+    <!-- <Home /> -->
+    <Rodape />
+  </div>
 </template>
 
 <script>
-import index from './components/index.vue'
+import MenuSuperior from './components/MenuSuperior.vue'
+import Visualizar from './views/Visualizar.vue'
+// import Home from './views/Home.vue'
+import Rodape from './components/Rodape.vue'
+
 
 export default {
   name: 'App',
   components: {
-    index,
+    MenuSuperior,
+    // Home,
+    Visualizar,
+    Rodape,
   }
 }
 </script>

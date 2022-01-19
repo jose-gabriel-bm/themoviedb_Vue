@@ -30,6 +30,10 @@
     }
     #lista-menu 
     {
+        margin-bottom: 0px;
+    }
+    #lista-menu ul
+    {
         list-style-type: none;
         padding: 0;
     }

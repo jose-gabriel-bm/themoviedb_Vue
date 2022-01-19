@@ -1,6 +1,4 @@
 <template>
-    <MenuSuperior /> 
-
     <div class="conteudo">
 
         <div id="pesquisa">
@@ -9,7 +7,6 @@
 
         <div id="filmes"> 
             <div class="card" v-for='result in results' :key='result.id'>
-                <router-link to="{ name:'Vizualizacao'}">teste</router-link>
 
                 <div class="topCard">
                     <h4>
@@ -29,42 +26,47 @@
                 </div>
             </div> 
             <div class="buttonCarregar">
-                <button id="buttonCarregarMais" type="button">
+                <button @click.prevent.stop="MoreMovies()"
+                    id="buttonCarregarMais" type="button">
                     <h4>Carregar Filmes</h4>
                 </button> 
             </div>          
         </div> 
 
     </div>
-
-    <Rodape />
 </template>
 
 <script>
-import MenuSuperior from './MenuSuperior.vue'
-import Rodape from './Rodape.vue'
 import axios from 'axios';
 
     export default {
-        name:'index',
+        name:'Home',
         created(){
-            this.BuscaFilmePopular();
+            this.PopularMovieSearch();
         },
         data(){
             return{
                 results:'',
+                moreMovies:'',
             }
         },
-        components:{
-            MenuSuperior,
-            Rodape
-        },
         methods:{
-            BuscaFilmePopular() {
+            PopularMovieSearch() {
                 axios.get('https://api.themoviedb.org/3/movie/popular?api_key=beed4e65bca0365111bd1076df78d4aa&language=pt-BR&page=1')
                 .then(response => {
                     this.results = response.data.results 
                 })
+            },
+            MoreMovies(){
+                axios.get('https://api.themoviedb.org/3/movie/popular?api_key=beed4e65bca0365111bd1076df78d4aa&language=pt-BR&page=2')
+                .then(response => {
+                    this.moreMovies = response.data.results
+                }).finally(() => {
+                    this.moreMovies.map(function(item){
+                        this.results.push({21:item});
+                        // console.log(this.results);
+                    })
+                });
             },
 
         }
@@ -77,7 +79,6 @@ import axios from 'axios';
         margin: 0px;
         width: 100%;
         height: 100%;
-        /* height: calc(100vh - 70px); */
         font-family:Verdana, Geneva, Tahoma, sans-serif;
     }
     #filmes {
