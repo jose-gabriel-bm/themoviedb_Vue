@@ -29,11 +29,16 @@
 
         <div class="extraContent">
 
-            <div id="gridCrew">
-                <h4>Direção</h4>
-                <div id="listCrew" v-for='crew in crews' :key='crew.id' >
-                    <h5> {{ crew.name }} </h5>
-                    <h6>  Função: {{ crew.job }} </h6>
+            <div class="contentCarouselDetail">
+
+                <div class="itemDetails">
+                    <h4>Direção</h4>
+                    <div class="Details">
+                        <div class="Detail" v-for='crew in crews' :key='crew.id'>
+                            <h5> {{ crew.name }} </h5>
+                            <h6> Função: {{ crew.job }} </h6>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -89,7 +94,7 @@ import axios from 'axios';
         },
         data() {
             return {
-                idMovie:'460458',
+                idMovie:'87',
                 movie:'',
                 moviesSimilar:'',
                 moviesRecommendations:'',
@@ -122,7 +127,9 @@ import axios from 'axios';
                     var newValue = []
                     for (let i = 0; i < this.crews.length; i++){
                         if(this.crews[i].known_for_department == 'Directing'){
-                            newValue.push(this.crews[i])
+                            // if(this.crews[i].job == 'Director' || this.crews[i].job == 'Writer' ){
+                                newValue.push(this.crews[i])
+                            // }
                         }
                     }
                     this.crews = newValue;
@@ -202,41 +209,12 @@ import axios from 'axios';
     /* Conteudo extra */
     .extraContent{
         background-image:linear-gradient(to right, #e4dcdc94, #fcfcfcf8); 
-        padding: 05px;
-    }
-    #gridCrew{
-        margin: 10px;
-        display: grid;
-        padding: 10px;
-        border-radius: 10px;
-        background-color: #fff;
-        grid-auto-rows: 70px;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        font-family:Verdana, Geneva, Tahoma, sans-serif;
-        box-shadow: 0px 2px 10px rgba(84, 84, 85, 0.842);   
-    }
-    #gridCrew h4{
-        margin: 20px ;    
-        grid-column-start: 1;
-        grid-column-end: 5;
-        color: rgb(3, 63, 131);
-    }
-    #listCrew{
-        margin: 10px ; 
-        height: 20px;
-    }
-    #listCrew h5{
-        color: rgb(30, 118, 219);
-    }
-    #listCrew h6{
-        color: rgb(12, 59, 112);
+        padding: 3px;
     }
     .contentCarousel{
         font-family:Verdana, Geneva, Tahoma, sans-serif;
         box-shadow: 0px 2px 10px rgba(84, 84, 85, 0.842); 
         background-color: #fff;
-        margin: 0px;
-        padding: 0px;
         border-radius: 10px;
     }
     .contentCarousel h4{
@@ -264,5 +242,40 @@ import axios from 'axios';
         width: 200px;
         height: 290px;
         margin: 10px;
+    }
+    .itemDetails{
+        width: 280px;
+        height: 280px;
+        padding: 5px;
+        padding-top: 20px;
+    }
+    .Details{
+        overflow-x: hidden;
+        width: 280px;
+        height: 140px;
+    }
+
+    .Detail{
+        flex: none;
+        margin: 10px;
+        height: 70px;
+    }
+    .contentCarouselDetail{
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+        background-color: #fff;
+        margin: 3px;
+        padding: 10px;
+        float: right;
+    }
+    .itemDetails h4{
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+        color: rgb(3, 63, 131);
+        padding-bottom: 0px;
+    }
+    .itemDetails h5{
+        color: rgb(20, 54, 94);
+    }
+    .itemDetails h6{
+        color: rgb(54, 113, 182);
     }
 </style>

@@ -64,7 +64,6 @@ import axios from 'axios';
                 }).finally(() => {
                     this.moreMovies.map(function(item){
                         this.results.push({21:item});
-                        // console.log(this.results);
                     })
                 });
             },
