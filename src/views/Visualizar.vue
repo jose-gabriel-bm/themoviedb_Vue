@@ -6,19 +6,15 @@
                     <img :src=" urlImage + movie.poster_path" >
                 </div>
                 <div id="title">
-                    <h4>
-                        {{movie.title}}
-                    </h4>
+                    <h4>{{movie.title}}</h4>
                 </div>
                 <div id="Details">
-                    <h6>Generos: 
-                        <a v-for='genre in movie.genres' :key='genre.id'>{{ genre.name }} ,</a>
+                    <h6>
+                        Generos:<a v-for='genre in movie.genres' :key='genre.id'>{{ genre.name }} , </a>
                     </h6>
                 </div>
                 <div id="subtitle">
-                    <h5>
-                        {{ movie.tagline}}
-                    </h5>
+                    <h5>{{ movie.tagline}}</h5>
                 </div>
                 <div id="synopsis">
                     <h4>Sinopse</h4>
@@ -34,9 +30,9 @@
                 <div class="itemDetails">
                     <h4>Direção</h4>
                     <div class="Details">
-                        <div class="Detail" v-for='crew in crews' :key='crew.id'>
-                            <h5> {{ crew.name }} </h5>
-                            <h6> Função: {{ crew.job }} </h6>
+                        <div class="Detail" v-for='value in newValue' :key='value.id'>
+                            <h5> {{ value.name }} </h5>
+                            <h6> Função: {{ value.job }} </h6>
                         </div>
                     </div>
                 </div>
@@ -47,8 +43,9 @@
                 <h4>Elenco</h4>
                 <div class="itemWrapper">
                     <div class="items" >
-                        <div class="item" v-for='movieSimilar in moviesSimilar' :key='movieSimilar.id'>
-                            <img class="img" :src="urlImage + movieSimilar.poster_path" :alt="movieSimilar.title">
+                        <div class="item" v-for='actor in cast' :key='actor.id'>
+                            <img id="imgCast" class="img" :src="urlImage + actor.profile_path" :alt="actor.title">
+                            <h6 id="nameCast"> {{ actor.name }}</h6>
                         </div>
                     </div>
                 </div>
@@ -85,8 +82,8 @@ import axios from 'axios';
         name: 'Visualizar',
         created(){
             this.SearchMovie();
-            this.SearchSimilarMovie();    
-            this.seekDirection();
+            this.SearchCredits();
+            this.SearchSimilarMovie(); 
             this.SearchRecommendationsMovie();
         },
         beforeUpdate(){
@@ -95,11 +92,13 @@ import axios from 'axios';
         data() {
             return {
                 idMovie:'87',
+                cast:'',
                 movie:'',
+                credits:'',
+                newValue:'',
                 moviesSimilar:'',
-                moviesRecommendations:'',
                 urlImageFundo:'',
-                crews:'',
+                moviesRecommendations:'',
                 keyPo:'beed4e65bca0365111bd1076df78d4aa',  
                 urlImage:'http://image.tmdb.org/t/p/w500/',
                 urlApiThemovie:'https://api.themoviedb.org/3/movie/',
@@ -118,23 +117,33 @@ import axios from 'axios';
                     this.moviesSimilar = response.data.results                
                 })
             },
-            seekDirection(){
-                // Busca a direção do filme
+            SearchCredits(){
                  axios.get(this.urlApiThemovie + this.idMovie +'/credits?api_key='+ this.keyPo +'&language=pt-BR&page=1')
                 .then(response => {
-                    this.crews = response.data.crew
-
-                    var newValue = []
-                    for (let i = 0; i < this.crews.length; i++){
-                        if(this.crews[i].known_for_department == 'Directing'){
-                            // if(this.crews[i].job == 'Director' || this.crews[i].job == 'Writer' ){
-                                newValue.push(this.crews[i])
-                            // }
+                    this.credits = response.data
+                }).finally(() => {
+                    this.seekDirection();
+                    this.selectCast();
+                });     
+            },
+                selectCast(){
+                    let newValue = []
+                    for (let i = 0; i < this.credits.cast.length; i++){
+                        if(this.credits.cast[i].popularity > 2.000 && this.credits.cast[i].profile_path != ''){
+                            newValue.push(this.credits.cast[i])
                         }
                     }
-                    this.crews = newValue;
-                })
-            },
+                    this.cast = newValue;
+                },
+                seekDirection(){
+                    let newValue = []
+                    for (let i = 0; i < this.credits.crew.length; i++){
+                        if(this.credits.crew[i].known_for_department == 'Directing'){
+                            newValue.push(this.credits.crew[i])
+                        }
+                    }
+                    this.newValue = newValue;
+                },
             SearchRecommendationsMovie(){
                 axios.get(this.urlApiThemovie + this.idMovie +'/recommendations?api_key='+ this.keyPo +'&language=pt-BR&page=1')
                 .then(response => {
@@ -277,5 +286,14 @@ import axios from 'axios';
     }
     .itemDetails h6{
         color: rgb(54, 113, 182);
+    }
+    #imgCast{
+        border-radius:20px 20px 0px 0px;
+        width: 150px;
+        height: 220px;
+    }
+    #nameCast{
+        margin: 10px;
+        color: rgb(20, 54, 94);
     }
 </style>
