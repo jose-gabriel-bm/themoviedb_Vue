@@ -1,8 +1,6 @@
 <template>
     <div class="menu">
-        
         <ul id="lista-menu">
-            <li><img src="../assets/logo.png" alt="some text" width=80 height=80></li>
             <li><a href="#">Filmes</a></li>
             <li><a href="#">Series</a></li>
             <li><a href="#">Pessoas</a></li>
@@ -30,12 +28,12 @@
     }
     #lista-menu 
     {
-        margin-bottom: 0px;
+        margin: 0px;
     }
     #lista-menu ul
     {
         list-style-type: none;
-        padding: 0;
+        padding: 0px;
     }
     #lista-menu li 
     {

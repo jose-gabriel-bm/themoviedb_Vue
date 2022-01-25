@@ -6,25 +6,34 @@
         </div>            
 
         <div id="filmes"> 
+
             <div class="card" v-for='result in results' :key='result.id'>
 
-                <div class="topCard">
-                    <h4>
-                        {{result.title}}
-                    </h4>
-                </div>
                 <div class="mediaCard">
                     <img :src="'http://image.tmdb.org/t/p/w500/'+result.poster_path" >
                 </div>
+
                 <div class="bottomCard">
+
+                    <div id="title">
+                        <h5>
+                            {{result.title}}
+                        </h5>
+                    </div>
+
                     <h5>
                         Data Lançamento
                     </h5>
+
                     <p>
                         {{ result.release_date }}
                     </p>
+
                 </div>
+
             </div> 
+
+
             <div class="buttonCarregar">
                 <button @click.prevent.stop="MoreMovies()"
                     id="buttonCarregarMais" type="button">
@@ -78,36 +87,25 @@ import axios from 'axios';
         margin: 0px;
         width: 100%;
         height: 100%;
+        min-height: 500px;
         font-family:Verdana, Geneva, Tahoma, sans-serif;
     }
     #filmes {
-        padding: 20px;
-        padding-left: 30px;
-        margin: 10px;
+        padding: 5px;
+        padding-left: 20px;
+        margin: 5px;
         width: 100%;
         height: 100%; 
     }
     .card {
         background: #FFF;
         box-shadow: 0px 2px 18px rgba(1, 21, 44, 0.274);
-        border-radius: 20px;
-        margin: 20px;
-        margin-left: 20px;
+        border-radius: 15px;
+        margin: 10px;
+        margin-left: 5px;
         width: 250px;
         height: 200px;
         display: inline-table;
-    }
-    .topCard {
-        padding: 15px;
-        padding-top: 10px;
-        padding-bottom: 5px;
-        width: 100%;
-        height: 100px;
-    }
-    .topCard h4 {
-        cursor: pointer;
-        margin: 0px;
-        color: rgb(3, 63, 131);
     }
     .mediaCard {
         width: 100%;
@@ -117,6 +115,7 @@ import axios from 'axios';
         cursor: pointer;
         width: 250px;
         height: 320px;
+        border-radius: 15px 15px 0px 0px;
     }
     .bottomCard {
         padding: 15px;
@@ -132,8 +131,14 @@ import axios from 'axios';
         margin: 0px;
         color: rgb(20, 54, 94);
     }
+    #title{
+        margin-bottom: 5px;
+        width: 100%;
+        height: 50px;
+    }
     .buttonCarregar{
         text-align: center;
+        margin-top: 40px;
     }
     #buttonCarregarMais h4{
         margin: 0px;

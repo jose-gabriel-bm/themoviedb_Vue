@@ -58,8 +58,8 @@
     .rodape div{
         color: white;
         display: inline-block; 
-        margin-top: 0px;
         margin: 40px;
+        margin-top: 20px;
         margin-bottom: 20px;
 
     }

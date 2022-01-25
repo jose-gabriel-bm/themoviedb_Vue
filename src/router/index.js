@@ -1,19 +1,19 @@
 import Vue from 'vue';
-import Router from 'vue-router';
-import Vizualizacao from '@/components/Vizualizacao';
-import index  from '@/components/index';
+import VueRouter from 'vue-router';
+import Vizualizacao from '../views/Vizualizacao';
+import Home  from '../views/Home';
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'index',
-      component: index,
+      path: '/Home',
+      name: 'Home',
+      component: Home,
     },
     {
-      path: '/',
+      path: '/Vizualizacao',
       name: 'Vizualizacao',
       component: Vizualizacao,
     },

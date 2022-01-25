@@ -36,6 +36,8 @@
                         </div>
                     </div>
                 </div>
+                <h5 class="revenue">Receita: <a>{{ movie.revenue }}</a></h5>
+                <h5 class="revenue">Duração Filme: <a>{{ movie.runtime}} minutos</a></h5>
             </div>
 
             <div class="contentCarousel">
@@ -163,8 +165,8 @@ import axios from 'axios';
         background-size: cover;
     }
     #cardMovie{
-        height: 450px;
-        padding: 50px;
+        height: 400px;
+        padding: 40px;
         padding-bottom: 40px;
         display: grid;
         grid-template-columns: 270px repeat(2, 1fr);
@@ -261,13 +263,13 @@ import axios from 'axios';
     .Details{
         overflow-x: hidden;
         width: 280px;
-        height: 140px;
+        height: 198px;
     }
 
     .Detail{
         flex: none;
         margin: 10px;
-        height: 70px;
+        height: 60px;
     }
     .contentCarouselDetail{
         font-family:Verdana, Geneva, Tahoma, sans-serif;
@@ -275,6 +277,15 @@ import axios from 'axios';
         margin: 3px;
         padding: 10px;
         float: right;
+    }
+    .revenue{
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+        color: rgb(3, 63, 131);
+        padding: 5px;
+        margin-bottom: 5px;       
+    }
+    .revenue a{
+        color: rgb(54, 113, 182);
     }
     .itemDetails h4{
         font-family:Verdana, Geneva, Tahoma, sans-serif;
