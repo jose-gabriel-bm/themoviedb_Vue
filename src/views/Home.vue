@@ -6,38 +6,26 @@
         </div>            
 
         <div id="filmes"> 
-
             <div class="card" v-for='result in results' :key='result.id'>
-
                 <div class="mediaCard">
-                    <img :src="'http://image.tmdb.org/t/p/w500/'+result.poster_path" >
+                    <router-link  :to="{name:'Visualizar',params:{idmovie:result.id}}">
+                        <img :src="'http://image.tmdb.org/t/p/w500/'+result.poster_path" >
+                    </router-link>
                 </div>
-
                 <div class="bottomCard">
-                    <h5>
-                        Data Lançamento
-                    </h5>
-                    <p>
-                        {{ result.release_date }}
-                    </p>
+                    <h5>Data Lançamento</h5>
+                    <p>{{ result.release_date }}</p>
                 </div>
-
             </div> 
-
-
             <div class="buttonCarregar">
-                <button @click.prevent.stop="MoreMovies()"
-                    id="buttonCarregarMais" type="button">
+                <button @click.prevent.stop="MoreMovies()" id="buttonCarregarMais" type="button">
                     <h4>Carregar Filmes</h4>
                 </button> 
-
-                <button @click.prevent.stop="ReturnTop()" 
-                    id="top">
-                    <h4>Topo</h4>
+                <button @click.prevent.stop="ReturnTop()" id="top">
+                    <img src="../assets/up.png" width=30 height=30>
                 </button>
             </div>          
         </div> 
-
     </div>
 </template>
 
@@ -54,20 +42,21 @@ import axios from 'axios';
                 results:'',
                 moreMovies:'',
                 page: 2,
+                urlApiThemovie:'https://api.themoviedb.org/3/movie/popular',
+                keyPo:'beed4e65bca0365111bd1076df78d4aa', 
             }
         },
         methods:{
             PopularMovieSearch() {
-                axios.get('https://api.themoviedb.org/3/movie/popular?api_key=beed4e65bca0365111bd1076df78d4aa&language=pt-BR&page=1')
+                axios.get(this.urlApiThemovie +'?api_key='+ this.keyPo +'&language=pt-BR&page=1')
                 .then(response => {
                     this.results = response.data.results 
                 })
             },
             MoreMovies(){
-                axios.get('https://api.themoviedb.org/3/movie/popular?api_key=beed4e65bca0365111bd1076df78d4aa&language=pt-BR&page='+ this.page)
+                axios.get(this.urlApiThemovie +'?api_key='+ this.keyPo +'&language=pt-BR&page='+ this.page)
                 .then(response => {
                     this.moreMovies = response.data.results
-
                     for (let i = 0; i < this.moreMovies.length; i++){     
                         this.results.push(this.moreMovies[i])
                     }
@@ -160,15 +149,23 @@ import axios from 'axios';
         float: center;
     } 
     #top{
-        width: 80px;
+        padding: 0px;
+        width: 60px;
+        height: 50px;
         float: right;
         margin-right: 20px;
+        background-image: linear-gradient(to right, #6c8592, #e5e9eb);
+        border-color: #8abce277;
+    }
+    #top:hover{
+        border-color: #2a7fad7c;
     }
     #buttonCarregarMais h4{
         margin: 0px;
     }
     #top h4{
         margin: 0px;
+        color: #2a7fad;
     }
     
 </style>

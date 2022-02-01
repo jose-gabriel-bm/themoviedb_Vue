@@ -1,4 +1,4 @@
-# desafio-vuejs
+# desafio_vue
 
 ## Project setup
 ```

@@ -1,21 +1,23 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Vizualizacao from '../views/Vizualizacao';
-import Home  from '../views/Home';
+import Router from 'vue-router';
 
-Vue.use(VueRouter);
+import Home from './../views/Home';
+import Visualizar from './../views/Visualizar';
+
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/Home',
-      name: 'Home',
+      path: '/',
+      name:'Home',
       component: Home,
     },
     {
-      path: '/Vizualizacao',
-      name: 'Vizualizacao',
-      component: Vizualizacao,
+      path: 'visualizar/:idmovie',
+      name:'Visualizar',
+      component: Visualizar,
     },
+
   ],
 });

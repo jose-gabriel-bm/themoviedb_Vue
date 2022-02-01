@@ -2,52 +2,40 @@
     <div id="content">
         <div id="backgroundImage" :style="{ backgroundImage: `url('${urlImageFundo}')` }">
             <div id="cardMovie">
-                <div id="image">
-                    <img :src=" urlImage + movie.poster_path" >
-                </div>
-                <div id="title">
-                    <h4>{{movie.title}}</h4>
-                </div>
+                <div id="image"><img :src=" urlImage + movie.poster_path"></div>
+                <div id="title"><h4>{{movie.title}}</h4></div>
                 <div id="Details">
-                    <h6>
-                        Generos:<a v-for='genre in movie.genres' :key='genre.id'>{{ genre.name }} , </a>
-                    </h6>
+                    <h6>Generos:<a v-for='genre in movie.genres' :key='genre.name'>{{ genre.name }} ,</a></h6>
                 </div>
-                <div id="subtitle">
-                    <h5>{{ movie.tagline}}</h5>
-                </div>
-                <div id="synopsis">
-                    <h4>Sinopse</h4>
-                    <p>{{ movie.overview}}</p>
-                </div>
+                <div id="subtitle"><h5>{{ movie.tagline}}</h5></div>
+                <div id="synopsis"><h4>Sinopse</h4><p>{{ movie.overview}}</p></div>
             </div>
         </div>
 
         <div class="extraContent">
-
             <div class="contentCarouselDetail">
-
                 <div class="itemDetails">
                     <h4>Direção</h4>
                     <div class="Details">
-                        <div class="Detail" v-for='value in newValue' :key='value.id'>
+                        <div class="Detail" v-for='value in newValue' :key='value.job'>
                             <h5> {{ value.name }} </h5>
                             <h6> Função: {{ value.job }} </h6>
                         </div>
                     </div>
                 </div>
-                <h5 class="revenue">Receita: <a>{{ movie.revenue }}</a></h5>
+                <h5 v-if="movie.revenue" class="revenue">Receita: <a>{{ movie.revenue }}</a></h5>
                 <h5 class="revenue">Duração Filme: <a>{{ movie.runtime}} minutos</a></h5>
             </div>
 
             <div class="contentCarousel">
-
                 <h4>Elenco</h4>
                 <div class="itemWrapper">
                     <div class="items" >
-                        <div class="item" v-for='actor in cast' :key='actor.id'>
-                            <img id="imgCast" class="img" :src="urlImage + actor.profile_path" :alt="actor.title">
-                            <h6 id="nameCast"> {{ actor.name }}</h6>
+                        <div class="item" v-for='actor in cast' :key='actor.title'>
+                            <div v-if="actor.profile_path"> 
+                                <img id="imgCast" class="img" :src="urlImage + actor.profile_path" :alt="actor.title">
+                                <h6 id="nameCast"> {{ actor.name }}</h6>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -55,8 +43,10 @@
                 <h4>Recomendações</h4>
                 <div class="itemWrapper">
                     <div class="items" >
-                        <div class="item" v-for='movieRecommendations in moviesRecommendations' :key='movieRecommendations.id'>
-                            <img class="img" :src="urlImage + movieRecommendations.poster_path" :alt="movieRecommendations.title">
+                        <div class="item" v-for='movieRecommendations in moviesRecommendations' :key='movieRecommendations.title'>
+                            <router-link  :to="{name:'Visualizar',params:{idmovie:movieRecommendations.id}}">
+                                <img class="img" :src="urlImage + movieRecommendations.poster_path" :alt="movieRecommendations.title">
+                            </router-link>
                         </div>
                     </div>
                 </div>
@@ -65,7 +55,9 @@
                 <div class="itemWrapper">
                     <div class="items" >
                         <div class="item" v-for='movieSimilar in moviesSimilar' :key='movieSimilar.id'>
-                            <img class="img" :src="urlImage + movieSimilar.poster_path" :alt="movieSimilar.title">
+                            <router-link  :to="{name:'Visualizar',params:{idmovie:movieSimilar.id}}">
+                                <img class="img" :src="urlImage + movieSimilar.poster_path" :alt="movieSimilar.title">
+                            </router-link>
                         </div>
                     </div>
                 </div>
@@ -81,19 +73,18 @@
 import axios from 'axios';
 
     export default {
+        //  watch: {
+        //     '$route' (to, from) {
+        //         alert(to.params.idmovie);
+        //     }
+        // },
         name: 'Visualizar',
         created(){
             this.SearchMovie();
-            this.SearchCredits();
-            this.SearchSimilarMovie(); 
-            this.SearchRecommendationsMovie();
-        },
-        beforeUpdate(){
-            this.bannerBgImage();
-        },
+        },  
         data() {
             return {
-                idMovie:'87',
+                idMovie:this.$route.params.idmovie,
                 cast:'',
                 movie:'',
                 credits:'',
@@ -108,10 +99,15 @@ import axios from 'axios';
         },
         methods:{
             SearchMovie(){
-                axios.get(this.urlApiThemovie + this.idMovie +'?api_key='+ this.keyPo +'&language=pt-BR')
+                axios.get(this.urlApiThemovie + this.idMovie + '?api_key=' + this.keyPo +'&language=pt-BR')
                 .then(response => {
                     this.movie = response.data
-                })
+                    this.urlImageFundo = `https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/${response.data.backdrop_path}`
+                }).finally(() => {
+                    this.SearchCredits();
+                    this.SearchSimilarMovie(); 
+                    this.SearchRecommendationsMovie();
+                });  
             },
             SearchSimilarMovie(){
                 axios.get(this.urlApiThemovie + this.idMovie +'/similar?api_key='+ this.keyPo +'&language=pt-BR&page=1')
@@ -119,42 +115,39 @@ import axios from 'axios';
                     this.moviesSimilar = response.data.results                
                 })
             },
-            SearchCredits(){
-                 axios.get(this.urlApiThemovie + this.idMovie +'/credits?api_key='+ this.keyPo +'&language=pt-BR&page=1')
-                .then(response => {
-                    this.credits = response.data
-                }).finally(() => {
-                    this.seekDirection();
-                    this.selectCast();
-                });     
-            },
-                selectCast(){
-                    let newValue = []
-                    for (let i = 0; i < this.credits.cast.length; i++){
-                        if(this.credits.cast[i].popularity > 2.000 && this.credits.cast[i].profile_path != ''){
-                            newValue.push(this.credits.cast[i])
-                        }
-                    }
-                    this.cast = newValue;
-                },
-                seekDirection(){
-                    let newValue = []
-                    for (let i = 0; i < this.credits.crew.length; i++){
-                        if(this.credits.crew[i].known_for_department == 'Directing'){
-                            newValue.push(this.credits.crew[i])
-                        }
-                    }
-                    this.newValue = newValue;
-                },
             SearchRecommendationsMovie(){
                 axios.get(this.urlApiThemovie + this.idMovie +'/recommendations?api_key='+ this.keyPo +'&language=pt-BR&page=1')
                 .then(response => {
                     this.moviesRecommendations = response.data.results                
                 })
-            }, 
-            bannerBgImage(){
-                this.urlImageFundo = `https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/${this.movie.backdrop_path}`;
             },
+            SearchCredits(){
+                axios.get(this.urlApiThemovie + this.idMovie +'/credits?api_key='+ this.keyPo +'&language=pt-BR&page=1')
+                .then(response => {
+                    this.credits = response.data
+                }).finally(() => {
+                    this.SeekDirection();
+                    this.SelectCast();
+                });     
+            },
+            SelectCast(){
+                let newValue = []
+                for (let i = 0; i < this.credits.cast.length; i++){
+                    if(this.credits.cast[i].popularity > 2.000 && this.credits.cast[i].profile_path != ''){
+                        newValue.push(this.credits.cast[i])
+                    }
+                }
+                this.cast = newValue;
+            },
+            SeekDirection(){
+                let newValue = []
+                for (let i = 0; i < this.credits.crew.length; i++){
+                    if(this.credits.crew[i].known_for_department == 'Directing'){
+                        newValue.push(this.credits.crew[i])
+                    }
+                }
+                this.newValue = newValue;
+            }, 
 
         }
     }
@@ -216,17 +209,14 @@ import axios from 'axios';
     #synopsis h4{
         color:rgb(255, 255, 255);
     }
-
-    /* Conteudo extra */
     .extraContent{
         background-image:linear-gradient(to right, #e4dcdc94, #fcfcfcf8); 
-        padding: 3px;
+        padding: 0px;
     }
     .contentCarousel{
         font-family:Verdana, Geneva, Tahoma, sans-serif;
         box-shadow: 0px 2px 10px rgba(84, 84, 85, 0.842); 
         background-color: #fff;
-        border-radius: 10px;
     }
     .contentCarousel h4{
         font-family:Verdana, Geneva, Tahoma, sans-serif;
@@ -265,7 +255,6 @@ import axios from 'axios';
         width: 280px;
         height: 198px;
     }
-
     .Detail{
         flex: none;
         margin: 10px;
