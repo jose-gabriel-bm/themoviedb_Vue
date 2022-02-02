@@ -22,7 +22,7 @@
                     <h4>Carregar Filmes</h4>
                 </button> 
                 <button @click.prevent.stop="ReturnTop()" id="top">
-                    <img src="../assets/up.png" width=30 height=30>
+                    <img src="./../assets/up.png" width=30 height=30>
                 </button>
             </div>          
         </div> 

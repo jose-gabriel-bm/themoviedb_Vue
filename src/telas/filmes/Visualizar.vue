@@ -73,15 +73,10 @@
 import axios from 'axios';
 
     export default {
-        //  watch: {
-        //     '$route' (to, from) {
-        //         alert(to.params.idmovie);
-        //     }
-        // },
         name: 'Visualizar',
         created(){
             this.SearchMovie();
-        },  
+        }, 
         data() {
             return {
                 idMovie:this.$route.params.idmovie,
@@ -96,6 +91,11 @@ import axios from 'axios';
                 urlImage:'http://image.tmdb.org/t/p/w500/',
                 urlApiThemovie:'https://api.themoviedb.org/3/movie/',
             };
+        },
+        watch:{
+            movie(to, oldValue){
+                console.log(to, oldValue);
+            }
         },
         methods:{
             SearchMovie(){
