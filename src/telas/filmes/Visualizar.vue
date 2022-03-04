@@ -1,5 +1,6 @@
 <template>
     <div id="content">
+
         <div id="backgroundImage" :style="{ backgroundImage: `url('${urlImageFundo}')` }">
             <div id="cardMovie">
                 <div id="image"><img :src=" urlImage + movie.poster_path"></div>
@@ -13,13 +14,14 @@
         </div>
 
         <div class="extraContent">
-            <div class="contentCarouselDetail">
+
+            <div v-if="this.newValue.length > 0" class="contentCarouselDetail">
                 <div class="itemDetails">
                     <h4>Direção</h4>
                     <div class="Details">
-                        <div class="Detail" v-for='value in newValue' :key='value.job'>
-                            <h5> {{ value.name }} </h5>
-                            <h6> Função: {{ value.job }} </h6>
+                        <div class="Detail" v-for='value in newValue' :key='value.job' >
+                            <h5 v-if="value.name"> {{ value.name }} </h5>
+                            <h6 v-if="value.name"> Função: {{ value.job }} </h6>
                         </div>
                     </div>
                 </div>
@@ -73,6 +75,12 @@
 import axios from 'axios';
 
     export default {
+        watch: {
+            '$route' (to) {
+                this.idMovie = to.params.idmovie;
+                this.SearchMovie();
+            }
+        },
         name: 'Visualizar',
         created(){
             this.SearchMovie();
@@ -92,22 +100,17 @@ import axios from 'axios';
                 urlApiThemovie:'https://api.themoviedb.org/3/movie/',
             };
         },
-        watch:{
-            movie(to, oldValue){
-                console.log(to, oldValue);
-            }
-        },
         methods:{
             SearchMovie(){
+                this.SearchCredits();
+                this.SearchSimilarMovie(); 
+                this.SearchRecommendationsMovie();
+                
                 axios.get(this.urlApiThemovie + this.idMovie + '?api_key=' + this.keyPo +'&language=pt-BR')
                 .then(response => {
                     this.movie = response.data
                     this.urlImageFundo = `https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/${response.data.backdrop_path}`
-                }).finally(() => {
-                    this.SearchCredits();
-                    this.SearchSimilarMovie(); 
-                    this.SearchRecommendationsMovie();
-                });  
+                })  
             },
             SearchSimilarMovie(){
                 axios.get(this.urlApiThemovie + this.idMovie +'/similar?api_key='+ this.keyPo +'&language=pt-BR&page=1')
@@ -121,6 +124,7 @@ import axios from 'axios';
                     this.moviesRecommendations = response.data.results                
                 })
             },
+
             SearchCredits(){
                 axios.get(this.urlApiThemovie + this.idMovie +'/credits?api_key='+ this.keyPo +'&language=pt-BR&page=1')
                 .then(response => {
