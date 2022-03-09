@@ -2,35 +2,21 @@
     <div class="menu">
         <ul class="lista-menu">
             <li class="dropdown_menu-item">
+                <span>Inicio</span>
+                <ul class="dropdown_submenu">
+                    <li class="dropdown_submenu-item">
+                        <a href="http://localhost:8080/#/" class="dropdown_submenu-link">Inicio</a> 
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown_menu-item">
                 <span>Filmes</span>
                 <ul class="dropdown_submenu">
                     <li class="dropdown_submenu-item">
-                        <a href="#" class="dropdown_submenu-link">Populares</a> 
+                        <a href="" class="dropdown_submenu-link">Populares</a> 
                     </li>
                     <li class="dropdown_submenu-item">
-                        <a href="#" class="dropdown_submenu-link">Em cartaz</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown_menu-item">
-                <span>Series</span>
-                <ul class="dropdown_submenu">
-                    <li class="dropdown_submenu-item">
-                        <a href="#" class="dropdown_submenu-link">Populares</a> 
-                    </li>
-                    <li class="dropdown_submenu-item">
-                        <a href="#" class="dropdown_submenu-link">Na TV</a> 
-                    </li>
-                    <li class="dropdown_submenu-item">
-                        <a href="#" class="dropdown_submenu-link">Bem avaliadas</a> 
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown_menu-item">
-                <span>Pessoas</span>
-                <ul class="dropdown_submenu">
-                    <li class="dropdown_submenu-item">
-                        <a href="#" class="dropdown_submenu-link">Pessoas Populares</a> 
+                        <a href="" class="dropdown_submenu-link">Em cartaz</a>
                     </li>
                 </ul>
             </li>

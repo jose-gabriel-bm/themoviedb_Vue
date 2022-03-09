@@ -111,6 +111,7 @@ import axios from 'axios';
                     this.movie = response.data
                     this.urlImageFundo = `https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/${response.data.backdrop_path}`
                 })  
+                window.scrollTo(0, 0);
             },
             SearchSimilarMovie(){
                 axios.get(this.urlApiThemovie + this.idMovie +'/similar?api_key='+ this.keyPo +'&language=pt-BR&page=1')
